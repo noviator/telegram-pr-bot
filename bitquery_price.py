@@ -9,7 +9,7 @@ query = """
     dexTrades(
       options: {desc: ["block.height","tradeIndex"], limit: 1}
       exchangeName: {in: ["Pancake", "Pancake v2"]}
-      baseCurrency: {is: "0x6c1de9907263f0c12261d88b65ca18f31163f29d"}
+      baseCurrency: {is: ""}
       date: {after: "2021-04-28"}
     ) {
       transaction {

@@ -256,13 +256,11 @@ def main():
     price_handler = CommandHandler("price", price, run_async=True)
     trades_handler = CommandHandler("trades", trades, run_async=True)
 
-    send_as_bot_handler = CommandHandler("sendCOINgrp", send_as_bot, run_async=True, filters=Filters.chat(595129821))
-    send_as_bot_handler_my_grp = CommandHandler("sm", send_as_bot2, run_async=True, filters=Filters.chat(595129821))
-    delete_message_handler = CommandHandler("del", delete, run_async=True, filters=Filters.chat(595129821))
-    stats_handler = CommandHandler("stats", stats, run_async=True,
-                                   filters=Filters.chat([-465041638, 595129821]))
-    latest_pair_handler = CommandHandler("latest", latest_pair, run_async=True,
-                                         filters=Filters.chat([-465041638, 595129821]))
+    send_as_bot_handler = CommandHandler("sendCOINgrp", send_as_bot, run_async=True)
+    send_as_bot_handler_my_grp = CommandHandler("sm", send_as_bot2, run_async=True)
+    delete_message_handler = CommandHandler("del", delete, run_async=True)
+    stats_handler = CommandHandler("stats", stats, run_async=True)
+    latest_pair_handler = CommandHandler("latest", latest_pair, run_async=True,)
 
     # order of dispatched handler matters
     dispatcher.add_handler(start_handler)
