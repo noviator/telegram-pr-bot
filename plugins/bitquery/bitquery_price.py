@@ -1,6 +1,5 @@
 import asyncio
 import httpx
-from cred import Creds
 
 # The GraphQL query
 query = """

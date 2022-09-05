@@ -1,8 +1,31 @@
-START = "Hello {}, Welcome to COINon price tracker bot"
+from Constants import ADDRESS
+
+WAIT = '⏱️ Please Wait\n\n' \
+       '📊 Collecting data\n\n'
+
+UNISWAP = f'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency={ADDRESS.address_COIN}'
+CONTRACT = f"{ADDRESS.address_COIN}"
+ETHERSCAN = f'https://etherscan.io/token/{ADDRESS.address_COIN}'
+DEXTOOLS = f'https://www.dextools.io/app/ether/pair-explorer/{ADDRESS.address_WETH_COIN}'
+
+
+
+CHART = f"Here's the link to the chart\n\n[🛠️ DexTools]({DEXTOOLS})" 
+        #f"ETHER\n\n[🛠️ DexTools]({DEX_ETHER})"
+
+PRICETEXT = f'📈 *Chart*  [🛠️ DexTools]({DEXTOOLS})\n\n' \
+            f'💫 *Buy*  [🦄 Uniswap]({UNISWAP})\n\n' \
+            f'[⚜ Etherscan]({ETHERSCAN})\n\n' 
+        #     f'[🔗 Telegram]({TELEGRAM}) | [🐦 Twitter]({TWITTER})\n\n' \
+        #     f'[📷 Instagram]({INSTAGRAM}) | [📱 Facebook]({FACEBOOK})\n\n' \
+        #     f'[📺 Discord]({DISCORD}) | [➰ Reddit]({REDDIT})\n\n' \
+        #     
+
 
 INVALID_COIN = "Sorry, invalid COIN SYMBOL\n" \
                "(or the coin is not found)\n" \
                "Try again with another one"
+               
 OOPS = "Oops, I ran into some problem, please try again😊"
 
 FULL_INFO = "Name      : {0:<5}\n" \
@@ -44,32 +67,3 @@ COIN_DETAILED = "Name      :  {0:<5}\n" \
                 "Total Supply      :  {23:<5}\n" \
                 "Maximum Supply    :  {24:<5}\n" \
                 "Circulating Supply:  {25:<5}\n"
-
-WAIT = '⏱️ Please Wait\n\n' \
-       '📊 Getting data\n\n' \
-       '🤑 It may take some time\n\n' \
-       '😀 Made by @binarystack 😀'
-
-BITPRICE = '🚀\nPrice USD  : ${0:0.8f}\n\n' \
-           '🚀\nPrice {1:<1} : {2:0.8f} {3:<1}'
-
-PAIRADDRESS = "[{}]({})"
-
-WEB3PRICE = '🚀\nPrice {0}  : ${1:0.8f}\n\n'
-
-WEBSITE = ''
-COINGECKO = ''
-POOCOIN = ''
-BOGGED = ''
-PANCAKESWAP = ''
-BSCSCAN = ''
-GITHUB = ''
-
-DEVELOPERURL = ''
-
-PRICETEXT = f'[🌐 Website]({WEBSITE}) | [🦎 CoinGecko]({COINGECKO})\n\n' \
-            f'📈 *Chart*  [💩 PooCoin]({POOCOIN}) |  [💹 Bogged]({BOGGED})\n\n' \
-            f'💫 *Buy*  [🥞 PancakeswapV2]({PANCAKESWAP})\n\n' \
-            f'[🔍 BSC scan]({BSCSCAN}) | [🤖 Github]({GITHUB})\n\n' \
-            f'__________________________\n' \
-            f'[🤖 Contact Bot developer 🤖]({DEVELOPERURL})'.replace('_','\_')

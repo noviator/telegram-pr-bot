@@ -1,6 +1,4 @@
 import requests
-from plugins import TEXT
-from cred import Creds
 
 
 def run_query(limit):

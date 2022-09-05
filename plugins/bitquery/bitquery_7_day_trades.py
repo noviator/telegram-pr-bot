@@ -1,21 +1,28 @@
+from concurrent.futures import process
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath('ABI.py')))
 import time
 import requests
 from datetime import datetime, timedelta
-from plugins.address_all import address
 from millify import millify
-from cred import Creds
 import numpy as np
+from Constants.ADDRESS import address_COIN, address_WETH
+
+from dotenv import load_dotenv
+load_dotenv()
+
+bitquery_api_key = os.getenv('BITQUERY_API_KEY')
+bot_data_ = {"lastVolCall": 0, "lastVolData": 0}
 
 # print(utc_time_now, utc_time_24hrs_ago)
-
 # The GraphQL query
-query = """query ($utc_before: ISO8601DateTime, $utc_now: ISO8601DateTime, $contract_coin:String){
-
-  seven_days: ethereum(network: bsc){
+query = """query ($utc_before: ISO8601DateTime, $utc_now: ISO8601DateTime, $contract_coin:String, $contract_weth:String) {
+  seven_days: ethereum(network: ethereum) {
     dexTrades(
       options: {asc: "timeInterval.day"}
       baseCurrency: {is: $contract_coin}
-      quoteCurrency: {is: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"}
+      quoteCurrency: {is: $contract_weth}
       time: {since: $utc_before, before: $utc_now}
     ){
       timeInterval{
@@ -27,9 +34,6 @@ query = """query ($utc_before: ISO8601DateTime, $utc_now: ISO8601DateTime, $cont
     }
   }
 }"""
-bitquery_api_key = Creds.bitquery_api_key
-address_coin = address.address_coin
-
 
 def run_query(query):
     try:
@@ -40,9 +44,11 @@ def run_query(query):
         utc_time_now = utc_time_now.strftime("%Y-%m-%dT%H:%M:%SZ")
         utc_time_7days_ago = utc_time_7days_ago.strftime("%Y-%m-%dT00:00:00Z")
 
-        variables = {'utc_now': utc_time_now, 'utc_before': utc_time_7days_ago, 'contract_coin': address_coin}
-        request = requests.post('https://graphql.bitquery.io/',
-                                json={'query': query, 'variables': variables}, headers=headers)
+        variables = {'utc_now': utc_time_now,
+                     'utc_before': utc_time_7days_ago, 
+                     'contract_coin': address_COIN,
+                     'contract_weth': address_WETH}
+        request = requests.post('https://graphql.bitquery.io/', json={'query': query, 'variables': variables}, headers=headers)
         if request.status_code == 200:
             return request.json()
         else:
@@ -50,10 +56,6 @@ def run_query(query):
     except Exception as e:
         print(f"bitquery error , {e}")
         return ''
-
-
-bot_data_ = {"lastVolCall": 0, "lastVolData": 0}
-
 
 def getVolume():
     timeout = 300
@@ -79,11 +81,11 @@ def getVolume():
         bot_data_['lastVolCall'] = time.time()
         print("new Vol data fetched")
         resp = run_query(query)
+        data = ''
         try:
             data = resp['data']['seven_days']['dexTrades']
         except Exception as e:
             print(f'getVolError: {e}')
-            data = ''
 
         if data:
             tradeText = ''
@@ -118,7 +120,6 @@ def getVolume():
             return bot_data_["lastVolData"]
         except:
             return ''
-
 
 def process_json():
     timeout = 300
